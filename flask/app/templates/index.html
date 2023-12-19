@@ -1,0 +1,40 @@
+
+
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+    <h4 class="mt-4">※現時点での出席ログの保存は保証されていません</h4>
+    <form class="mb-4" action="/" method="POST">
+        <input class="btn btn-primary" type="submit" value="ラズパイから取得">
+    </form>
+    <h1>活動日</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>日時</th>
+                <th>出席者一覧</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for onDay in onDays %}
+                <tr>
+                    <b><td id='{{ onDay }}'>
+                        <script>
+                            var wDay = new Date('{{ onDay }}').getDay();
+                            if (wDay == 5 || wDay == 3) {
+                                document.getElementById('{{ onDay }}').innerHTML += '<div style="background-color: lightblue;">{{ onDay }}</div>';
+                            } else {
+                                document.getElementById('{{ onDay }}').innerHTML += '<div>{{ onDay }}</div>';
+                            }
+                        </script>
+
+                    </td></b>
+                    <td><a class="btn btn-success btn-sm" href="/date/{{ onDay }}" role="button">出席者一覧</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

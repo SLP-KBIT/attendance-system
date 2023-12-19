@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  flask:
+    build:
+      context: ./flask
+    container_name: flask
+    ports:
+      - "27080:80"
+    volumes:
+      - ./flask/app:/app
