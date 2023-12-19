@@ -1,0 +1,4 @@
+/flask/app/key/*
+*.db
+*.json
+__pycache__
