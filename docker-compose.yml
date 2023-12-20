@@ -15,6 +15,7 @@ services:
       - "traefik.http.routers.attendance.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
       - "traefik.http.routers.attendance.entrypoints=web,websecure"
       - "traefik.http.routers.attendance.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.kagawaUniv-ipWhiteList"
 networks:
   attendance-network:
     external: true
