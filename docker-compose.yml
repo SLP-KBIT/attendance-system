@@ -5,7 +5,16 @@ services:
     build:
       context: ./flask
     container_name: flask
-    ports:
-      - "27080:80"
     volumes:
       - ./flask/app:/app
+    networks:
+      attendance-network:
+        ipv4_address: 172.31.0.11
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.attendance.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
+      - "traefik.http.routers.attendance.entrypoints=web,websecure"
+      - "traefik.http.routers.attendance.tls.certresolver=myresolver"
+networks:
+  attendance-network:
+    external: true
