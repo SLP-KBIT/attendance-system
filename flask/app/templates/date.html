@@ -31,14 +31,15 @@
         <div class="form mt-3">
             <form action="/attendance/date/{{ currentDate }}" method="POST">
                 <div class="form-group">
-                    <select class="form-control" name="name" required>
+                    <select class="form-control" name="name" style="width: 150px;" required>
                         <option hidden value="">名前</option>
                         {% for post2 in posts2 %}
                             <option value="{{ post2.name }}">{{ post2.grade }}：{{ post2.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <button type="submit" class="btn btn-success">登録</button>
+                <br>
+                <button type="submit" class="btn btn-success" style="width: 150px;">登録</button>
             </form>
         </div>
 
