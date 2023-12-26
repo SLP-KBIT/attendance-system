@@ -5,23 +5,20 @@ services:
       context: ./flask
     container_name: attendance
     ports:
-      - 8000:80
+      - 27080:80
     volumes:
       - ./flask/app:/app
-    networks:
-      - traefik-network
+    # networks:
+    #   - traefik-network
     labels:
       traefik.enable: true
       traefik.http.routers.attendance.rule: Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)
       traefik.http.routers.attendance.entrypoints: web
       traefik.http.services.attendance.loadbalancer.server.port: 80
-      traefik.http.routers.attendance.middlewares: attendance-auth, attendance-whitelist
+      traefik.http.routers.attendance.middlewares: attendance-whitelist, attendance-auth
       traefik.http.middlewares.attendance-whitelist.ipwhitelist.sourcerange: 133.92.0.0/16, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8
       traefik.http.middlewares.attendance-auth.basicauth.users: slp-admin:$$apr1$$DPydRGsS$$xZTKV4ca4.AYzbfA9y1da0
-        # - "traefik.http.routers.flask.middlewares=whitelist-ip@file"
-        # - "traefik.http.services.flask.loadbalancer.server.port=80"
         # - "traefik.http.routers.flask.tls.certresolver=myresolver"
-        # - "traefik.http.routers.flask.middlewares=kagawaUniv-ipWhiteList@file"
-networks:
-  traefik-network:
-    external: true
+# networks:
+#   traefik-network:
+#     external: true

@@ -1,12 +1,17 @@
-
-
 {% extends 'base.html' %}
 
 {% block body %}
 <div class="container">
-    <h4 class="mt-4">※現時点での出席ログの保存は保証されていません</h4>
+    <h1>出席情報を更新</h1>
     <form class="mb-4" action="/attendance" method="POST">
-        <input class="btn btn-primary" type="submit" value="ラズパイから取得">
+        <b>RaspberryPiから出席情報を取得します</b>
+        <br>
+        <input class="btn btn-primary" type="submit" style="width: 150px;" value="更新">
+        <script>
+            if ('{{ error }}' != '') {
+                alert('[取得に失敗しました]\n{{ error }}');
+            }
+        </script>
     </form>
     <h1>活動日</h1>
     <table class="table">

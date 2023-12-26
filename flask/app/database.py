@@ -30,29 +30,3 @@ engine2 = create_engine('sqlite:///name.db')
 # データベースを作成
 Base.metadata.create_all(engine1)
 Base.metadata.create_all(engine2)
-
-# # SQLAlchemyセッションを作成
-# Session1 = sessionmaker(bind=engine1)
-# session1 = Session1()
-
-# Session2 = sessionmaker(bind=engine2)
-# session2 = Session2()
-
-# # # # データを追加
-# # name = NameDB(number='21T000', name='ずんだもん', grade='B3')
-
-# # session2.add(name)
-
-# # # # 変更をデータベースにコミット
-# # session2.commit()
-
-# # データを取得
-# datas = session2.query(NameDB).all()
-
-# # 取得したデータを表示
-# # for data in datas:
-# #     print(f"number: {data.number}, Name: {data.name}, grade: {data.grade}")
-
-# # セッションを閉じる
-# session1.close()
-# session2.close()
