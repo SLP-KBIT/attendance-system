@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container">
     <h4 class="mt-4">※現時点での出席ログの保存は保証されていません</h4>
-    <form class="mb-4" action="/" method="POST">
+    <form class="mb-4" action="/attendance" method="POST">
         <input class="btn btn-primary" type="submit" value="ラズパイから取得">
     </form>
     <h1>活動日</h1>
@@ -30,7 +30,7 @@
                         </script>
 
                     </td></b>
-                    <td><a class="btn btn-success btn-sm" href="/date/{{ onDay }}" role="button">出席者一覧</a></td>
+                    <td><a class="btn btn-success btn-sm" href="attendance/date/{{ onDay }}" role="button">出席者一覧</a></td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, Response, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from werkzeug.security import generate_password_hash, check_password_hash
+# from werkzeug.security import generate_password_hash, check_password_hash
 from database import AttendanceDB, NameDB
 from datetime import datetime, timedelta
 import subprocess
@@ -16,25 +16,25 @@ engine1 = create_engine('sqlite:///attendance.db')
 Session1 = sessionmaker(bind=engine1)
 Session2 = sessionmaker(bind=engine2)
 
-# Basic認証のUsername,password
-users = {'admin': generate_password_hash('slp2284kbit')}
+# # Basic認証のUsername,password
+# users = {'admin': generate_password_hash('slp2284kbit')}
 
-# Basic認証のチェック関数
-def check_auth(username, password):
-    if username in users and check_password_hash(users[username], password):
-        return True
-    return False
+# # Basic認証のチェック関数
+# def check_auth(username, password):
+#     if username in users and check_password_hash(users[username], password):
+#         return True
+#     return False
 
-# Basic認証エラーメッセージ
-def authenticate():
-    return Response('出席管理システムにアクセスするには認証が必要です', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
+# # Basic認証エラーメッセージ
+# def authenticate():
+#     return Response('出席管理システムにアクセスするには認証が必要です', 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
-# Basic認証をアプリケーションに適用(Webサイトに表示)
-@app.before_request
-def require_auth():
-    auth = request.authorization
-    if not auth or not check_auth(auth.username, auth.password):
-        return authenticate()
+# # Basic認証をアプリケーションに適用(Webサイトに表示)
+# @app.before_request
+# def require_auth():
+#     auth = request.authorization
+#     if not auth or not check_auth(auth.username, auth.password):
+#         return authenticate()
 
 def compute_day(post, onDays):
     for onDay in onDays:
@@ -49,11 +49,11 @@ def extrack_name(my_names, post):
     return post.name
 
 # URL:(/)
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/attendance', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         subprocess.run('sh script.sh', shell=True)
-        return redirect('/')
+        return redirect('/attendance')
 
     session1 = Session1()
     posts = session1.query(AttendanceDB).order_by(AttendanceDB.date.desc()).all()
@@ -68,7 +68,7 @@ def index():
 
 
 # URL(/date/<指定した日付>)
-@app.route('/date/<currentDate_str>', methods=['GET', 'POST'])
+@app.route('/attendance/date/<currentDate_str>', methods=['GET', 'POST'])
 def date(currentDate_str):
     if request.method == 'POST':
         session1 = Session1()
@@ -86,7 +86,7 @@ def date(currentDate_str):
         session1.commit()
         session1.close()
 
-        return redirect(f'/date/{currentDate_str}')
+        return redirect(f'/attendance/date/{currentDate_str}')
 
     currentDate = datetime.strptime(currentDate_str, "%Y-%m-%d")
     session1 = Session1()
@@ -107,7 +107,7 @@ def date(currentDate_str):
 
 
 # URL(/user/<指定した学籍番号>)
-@app.route('/user/<currentNumber>')
+@app.route('/attendance/user/<currentNumber>')
 def user(currentNumber):
     session1 = Session1()
     posts = session1.query(AttendanceDB).order_by(AttendanceDB.date.desc()).filter(AttendanceDB.number == currentNumber).all()
@@ -117,18 +117,17 @@ def user(currentNumber):
 
 
 # URL(/delete/<指定したAttendanceDBのid>)
-@app.route('/delete/<int:id>')
+@app.route('/attendance/delete/<int:id>')
 def delete(id):
     session1 = Session1()
     post = session1.query(AttendanceDB).get(id)
     session1.delete(post)
     session1.commit()
     session1.close()
-    return redirect('/')
-
+    return redirect('/attendance')
 
 # URL(/member)
-@app.route('/member', methods=['GET', 'POST'])
+@app.route('/attendance/member', methods=['GET', 'POST'])
 def member():
     if request.method == 'GET':
         session2 = Session2()
@@ -146,11 +145,10 @@ def member():
         session2.add(new_post)
         session2.commit()
         session2.close()
-        return redirect('/member')
-
+        return redirect('/attendance/member')
 
 # URL(/member/delete/<指定したNameDBのid>)
-@app.route('/member/delete/<int:id>')
+@app.route('/attendance/member/delete/<int:id>')
 def delete_member(id):
     session2 = Session2()
     post = session2.query(NameDB).get(id)
@@ -158,7 +156,7 @@ def delete_member(id):
     session2.delete(post)
     session2.commit()
     session2.close()
-    return redirect('/member')
+    return redirect('/attendance/member')
 
 # main
 if __name__ == "__main__":

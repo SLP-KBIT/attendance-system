@@ -29,7 +29,7 @@
 
         <h1 class="mt-4">出席者追加</h1>
         <div class="form mt-3">
-            <form action="/date/{{ currentDate }}" method="POST">
+            <form action="/attendance/date/{{ currentDate }}" method="POST">
                 <div class="form-group">
                     <select class="form-control" name="name" required>
                         <option hidden value="">名前</option>
@@ -57,8 +57,8 @@
                 <tr>
                     <td>{{ post.name }}</td>
                     <td>{{ post.date }}</td>
-                    <td><a href="/user/{{ post.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
-                    <td><a href="/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
+                    <td><a href="/attendance/user/{{ post.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
+                    <td><a href="/attendance/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
                 </tr>
             {% endfor %}
         </tbody>
