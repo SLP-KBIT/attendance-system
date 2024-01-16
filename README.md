@@ -18,3 +18,6 @@ docker compose up
 # 設定変更
 - ラズパイのIPは``/flask/app/script.sh``に記載している．必要であれば変更する．
 - main.pyの``debug``を``False``にする．
+
+# Version
+- 2.2 2024/01/16
