@@ -4,8 +4,6 @@ services:
     build:
       context: ./flask
     container_name: attendance
-      #ports:
-      #- 27080:80
     volumes:
       - ./flask/app:/app
     networks:
@@ -13,12 +11,13 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.attendance.rule: Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)
-      traefik.http.routers.attendance.entrypoints: websecure
+      traefik.http.routers.attendance.entrypoints: web, websecure
       traefik.http.routers.attendance.tls.certresolver: myresolver
       traefik.http.services.attendance.loadbalancer.server.port: 80
       traefik.http.routers.attendance.middlewares: attendance-whitelist, attendance-auth
       traefik.http.middlewares.attendance-whitelist.ipwhitelist.sourcerange: 133.92.0.0/16, 192.168.0.0/16, 172.16.0.0/12, 10.0.0.0/8
       traefik.http.middlewares.attendance-auth.basicauth.users: slp-admin:$$apr1$$DPydRGsS$$xZTKV4ca4.AYzbfA9y1da0
+      
 networks:
   attendance-network:
     external: true

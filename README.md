@@ -12,12 +12,12 @@ ssh-keygen -q -t rsa -N '' -f ~/Attendance_System/flask/app/key/id_rsa
 
 3. コンテナ構築
 ```
-docker compose up
+docker compose up -d
 ```
 
 # 設定変更
 - ラズパイのIPは``/flask/app/script.sh``に記載している．必要であれば変更する．
-- main.pyの``debug``を``False``にする．
 
 # Version
-- 2.2 2024/01/16
+- Ver2.2 2024/01/16
+- Ver2.3 2024/01/31 
