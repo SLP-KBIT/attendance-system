@@ -2,10 +2,10 @@ version: '3.8'
 services:
   flask:
     build:
-      context: ./flask
+      context: .
     container_name: attendance
     volumes:
-      - ./flask/app:/app
+      - ./app:/app
     networks:
       - attendance-network
     labels:

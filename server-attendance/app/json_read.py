@@ -9,7 +9,7 @@ def number_to_name(data, namedb):
     for column in namedb:
         if data["number"] == column.number:
             return column.name, column.grade
-    return 0, 0
+    return f"不明なユーザ[{column.number}]", ""
 
 # JSONファイル開く
 with open('data.json', 'r') as json_file:
@@ -36,12 +36,12 @@ for json_data in json_datas:
     # 文字列型から日時型に変換
     date_object = datetime.strptime(json_data["timestamp"], "%Y-%m-%d %H:%M:%S")
 
-    if myInfo[0] != 0:
-        # AttendanceDBに保存するための型を用意
-        attendance = AttendanceDB(number=json_data["number"], name=myInfo[0], grade=myInfo[1], date=date_object)
 
-        # AttendanceDBに追加(※ステージング)
-        session1.add(attendance)
+    # AttendanceDBに保存するための型を用意
+    attendance = AttendanceDB(number=json_data["number"], name=myInfo[0], grade=myInfo[1], date=date_object)
+
+    # AttendanceDBに追加(※ステージング)
+    session1.add(attendance)
 
 # 変更内容をデータベースに反映
 session1.commit()

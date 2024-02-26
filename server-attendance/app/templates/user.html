@@ -50,7 +50,7 @@
             {% for post in posts %}
                 <tr>
                     <td>{{ post.date }}</td>
-                    <td><a href="attendance/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
+                    <td><a href="/attendance/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
                 </tr>
             {% endfor %}
         </tbody>

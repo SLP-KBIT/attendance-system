@@ -134,12 +134,15 @@ def user(currentNumber):
 # URL(/delete/<指定したAttendanceDBのid>)
 @app.route('/attendance/delete/<int:id>')
 def delete(id):
+    from_url = request.referrer
+    split_url = from_url.partition('/attendance/')
+
     session1 = Session1()
     post = session1.query(AttendanceDB).get(id)
     session1.delete(post)
     session1.commit()
     session1.close()
-    return redirect('/attendance')
+    return redirect(f'/attendance/{split_url[-1]}')
 
 # URL(/member)
 @app.route('/attendance/member', methods=['GET', 'POST'])
@@ -172,6 +175,12 @@ def delete_member(id):
     session2.commit()
     session2.close()
     return redirect('/attendance/member')
+
+
+@app.route('/attendance/other', methods=['GET', 'POST'])
+def other():
+    other_date = request.form.get('other')
+    return redirect(f'/attendance/date/{other_date}')
 
 # main
 if __name__ == "__main__":

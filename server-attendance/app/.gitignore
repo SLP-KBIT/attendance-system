@@ -2,3 +2,4 @@
 *.json
 *.pyc
 *.pub
+/key/id_rsa

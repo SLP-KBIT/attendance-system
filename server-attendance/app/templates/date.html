@@ -13,19 +13,17 @@
             </div>
         </div>
 
-        {% for my_name in my_names %}
-            <script>
-            var element
-            // {% for post in posts %}
-                if ( '{{post.name}}' == '{{my_name}}') {
-                    element = document.getElementById("{{ post.grade }}");
+        <script>
+            var element;
+            // {% for my_name in my_names %} //
+                // {% for post in posts %} //
+                    if ( '{{post.name}}' == '{{my_name}}' && "{{post.grade}}" != "" ) { element = document.getElementById("{{ post.grade }}") }
+                // {% endfor %} //
+                if (element) {
+                    element.innerHTML += '{{ my_name }}、';
                 }
-            // {% endfor %}
-            if (element) {
-                element.innerHTML += '{{ my_name }}、';
-            }
+            // {% endfor %} //
         </script>
-        {% endfor %}
 
         <h2 class="mt-4">出席者追加</h2>
         <div class="form mt-3">
