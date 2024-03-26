@@ -4,34 +4,6 @@
 
 # 構築方法
 
-※サーバ側とラズパイ側の2つをセットアップする必要があります。
-
-<!-- ## ラズパイ側
-
-64BitのDesktop版のOSをインストール（最小インストールでよい）
-
-1. 更新しておく
-
-```
-sudo apt update && sudo apt upgrade -y
-```
-
-2. クローン
-
-```
-git clone https://github.com/SLP-KBIT/Attendance_System.git pi-attendance
-```
-
-3. 実行
-
-※CLIでは、実行できないのでVNCなどを使用する（解決案募集中）
-
-```
-cd pi-attendance && python main.py
-``` -->
-
-## サーバ側
-
 1. クローン
 
 ```
