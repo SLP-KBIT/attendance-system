@@ -7,8 +7,8 @@ set -e
 remote_user="slp-admin"
 remote_host="133.92.145.205"
 remote_file="~/attendance-system/data.json"
-local_file="../data/data.json"
-remote_key="../key/attendance_key"
+local_file="data.json"
+remote_key="key/attendance_key"
 
 eval "$(ssh-agent -s)"
 
@@ -18,7 +18,7 @@ echo "JSONファイルを取得"
 scp -i $remote_key -oStrictHostKeyChecking=no "$remote_user@$remote_host:$remote_file" .
 
 echo "データベースに保存"
-python setDB.py
+python scripts/setDB.py
 
 echo "JSONファイルを初期化"
 echo "[]" > $local_file

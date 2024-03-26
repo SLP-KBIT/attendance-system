@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.scripts.database import AttendanceDB, NameDB
+from database import AttendanceDB, NameDB
 
 # 学籍番号から名前探す関数
 def number_to_name(data, namedb):
@@ -12,12 +12,12 @@ def number_to_name(data, namedb):
     return f"不明なユーザ[{column.number}]", ""
 
 # JSONファイル開く
-with open('../data/data.json', 'r') as json_file:
+with open('/app/data.json', 'r') as json_file:
     json_datas = json.load(json_file)
 
 # SQLiteデータベースに接続
-engine2 = create_engine('sqlite:///../data/name.db')
-engine1 = create_engine('sqlite:///../data/attendance.db')
+engine2 = create_engine('sqlite:///name.db')
+engine1 = create_engine('sqlite:///attendance.db')
 
 # SQLAlchemyセッションを作成
 Session1 = sessionmaker(bind=engine1)

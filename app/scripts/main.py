@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, redirect, Response, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.scripts.database import AttendanceDB, NameDB
+from database import AttendanceDB, NameDB
 from datetime import datetime, timedelta
 import subprocess
 
 app = Flask(__name__)
 
 # SQLiteデータベースに接続
-engine2 = create_engine('sqlite:///../data/name.db')
-engine1 = create_engine('sqlite:///../data/attendance.db')
+engine2 = create_engine('sqlite:///name.db')
+engine1 = create_engine('sqlite:///attendance.db')
 
 # SQLAlchemyセッションを作成
 Session1 = sessionmaker(bind=engine1)
@@ -44,7 +44,7 @@ def error_handle(e):
 def index():
     if request.method == 'POST':
         try:
-            subprocess.run('sh getFile.sh', shell=True, check=True)
+            subprocess.run('sh /app/scripts/getFile.sh', shell=True, check=True)
         except subprocess.CalledProcessError as e:
             error[1] = 1
             e = error_handle(e)
@@ -60,7 +60,7 @@ def index():
 
     session1.close()
     errorOut = error_handle(0)
-    return render_template('../templates/index.html', onDays=onDays, error=errorOut)
+    return render_template('index.html', onDays=onDays, error=errorOut)
 
 # URL(/date/<指定した日付>)
 @app.route('/attendance/date/<currentDate_str>', methods=['GET', 'POST'])
@@ -98,7 +98,7 @@ def date(currentDate_str):
         if tmp_name != 0:
             my_names.append(tmp_name)
     posts = session1.query(AttendanceDB).order_by(AttendanceDB.date).filter(AttendanceDB.date >= currentDate, AttendanceDB.date < currentDate+timedelta(days=1)).all()
-    return render_template('../templates/date.html', posts=posts, currentDate=currentDate_str, posts2=posts2, my_names=my_names)
+    return render_template('date.html', posts=posts, currentDate=currentDate_str, posts2=posts2, my_names=my_names)
 
 # URL(/user/<指定した学籍番号>)
 @app.route('/attendance/user/<currentNumber>', methods=['GET', 'POST'])
@@ -110,7 +110,7 @@ def user(currentNumber):
         lasts = session2.query(NameDB).filter(NameDB.number == currentNumber).first()
         session1.close()
         session2.close()
-        return render_template('../templates/user.html', posts=posts, lasts=lasts, currentNumber=currentNumber)
+        return render_template('user.html', posts=posts, lasts=lasts, currentNumber=currentNumber)
     
     else:
         session2 = Session2()
@@ -151,7 +151,7 @@ def member():
         session2 = Session2()
         posts = session2.query(NameDB).order_by(NameDB.number).all()
         session2.close()
-        return render_template('../templates/member.html', posts=posts)
+        return render_template('member.html', posts=posts)
 
     else:
         number = request.form.get('number')

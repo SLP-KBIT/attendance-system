@@ -24,8 +24,8 @@ class NameDB(Base):
     grade = Column(String(10), nullable=False)
 
 # SQLiteデータベースに接続
-engine1 = create_engine('sqlite:///../data/attendance.db')
-engine2 = create_engine('sqlite:///../data/name.db')
+engine1 = create_engine('sqlite:///attendance.db')
+engine2 = create_engine('sqlite:///name.db')
 
 # データベースを作成
 Base.metadata.create_all(engine1)
