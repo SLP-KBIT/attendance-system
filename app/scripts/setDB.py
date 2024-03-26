@@ -9,7 +9,7 @@ def number_to_name(data, namedb):
     for column in namedb:
         if data["number"] == column.number:
             return column.name, column.grade
-    return f"不明なユーザ[{column.number}]", ""
+    return f"不明なユーザ[{data["number"]}]", ""
 
 # JSONファイル開く
 with open('/app/data.json', 'r') as json_file:
