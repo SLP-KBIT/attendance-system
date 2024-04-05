@@ -95,7 +95,7 @@ def date(currentDate_str):
     my_names = [100]
     for post in posts:
         tmp_name = extrack_name(my_names, post)
-        if tmp_name != 0:
+        if tmp_name != 0 and post.grade != "":
             my_names.append(tmp_name)
     posts = session1.query(AttendanceDB).order_by(AttendanceDB.date).filter(AttendanceDB.date >= currentDate, AttendanceDB.date < currentDate+timedelta(days=1)).all()
     return render_template('date.html', posts=posts, currentDate=currentDate_str, posts2=posts2, my_names=my_names)
