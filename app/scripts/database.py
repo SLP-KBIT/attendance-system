@@ -9,7 +9,7 @@ Base = declarative_base()
 # AttendanceDBの内容定義
 class AttendanceDB(Base):
     __tablename__ = 'attendance'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, unique=True)
     number = Column(String(10), nullable=False)
     name = Column(String(50), nullable=False)
     grade = Column(String(10), nullable=False)
@@ -18,8 +18,8 @@ class AttendanceDB(Base):
 # NameDBの内容定義
 class NameDB(Base):
     __tablename__ = 'name'
-    id = Column(Integer, primary_key=True)
-    number = Column(String(10), nullable=False)
+    id = Column(Integer, primary_key=True, unique=True)
+    number = Column(String(10), nullable=False, unique=True)
     name = Column(String(50), nullable=False)
     grade = Column(String(10), nullable=False)
 

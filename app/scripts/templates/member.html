@@ -7,7 +7,7 @@
         <form action="/attendance/member" method="POST">
             <div class="form-group">
                 <label for="number">学籍番号</label>
-                <input type="text" class="form-control" name="number" style="width: 150px;" required>
+                <input type="text" class="form-control" name="number" style="width: 150px;" placeholder="20T000" required>
             </div>
             <div class="form-group">
                 <label for="name">名前</label>
@@ -17,10 +17,12 @@
                 <label for="grade">学年</label>
                 <select class="form-control" name="grade" style="width: 150px;" required>
                     <option hidden value="">学年</option>
-                    <option value="B1">1年</option>
-                    <option value="B2">2年</option>
-                    <option value="B3">3年</option>
-                    <option value="B4">4年</option>
+                    <option value="B1">学士1年</option>
+                    <option value="B2">学士2年</option>
+                    <option value="B3">学士3年</option>
+                    <option value="B4">学士4年</option>
+                    <option value="M1">修士1年</option>
+                    <option value="M2">修士2年</option>
                 </select>
             </div>
             <br>

@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, Response, url_for
+from flask import Flask, render_template, request, redirect, Response, url_for, render_template_string
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database import AttendanceDB, NameDB
 from datetime import datetime, timedelta
 import subprocess
+import re
 
 app = Flask(__name__)
 
@@ -15,18 +16,21 @@ engine1 = create_engine('sqlite:///attendance.db')
 Session1 = sessionmaker(bind=engine1)
 Session2 = sessionmaker(bind=engine2)
 
+# 同じ日付のデータを省く
 def compute_day(post, onDays):
     for onDay in onDays:
         if post == onDay:
             return 0
     return 1
 
+# 名前の抽出
 def extrack_name(my_names, post):
     for my_name in my_names:
         if my_name == post.name:
             return 0
     return post.name
 
+# 更新に失敗した時のエラー処理
 error = ['',0]
 def error_handle(e):
     if e and error[1]:
@@ -38,6 +42,22 @@ def error_handle(e):
     else:
         error[1] = 0
         return error[0]
+
+# 正規表現
+def convert_string(number, name, grade):
+    pattern_number = r'(\d{2})([A-Za-z])(\d{3})'
+    pattern_name = r'^[^\W_]{1,30}$'
+    pattern_grade = r'([A-Z])(\d)'
+    result1 = re.match(pattern_number, number)
+    result2 = re.match(pattern_name, name)
+    result3 = re.match(pattern_grade, grade)
+    if result1 and result2 and result3:
+        first_part = result1.group(1)
+        second_part = result1.group(2).upper()
+        third_part = result1.group(3)
+        return first_part + second_part + third_part
+    else:
+        return False
 
 # URL:(/)
 @app.route('/attendance', methods=['GET', 'POST'])
@@ -157,12 +177,18 @@ def member():
         number = request.form.get('number')
         name = request.form.get('name')
         grade = request.form.get('grade')
-        new_post = NameDB(number=number, name=name, grade=grade)
 
-        session2 = Session2()
-        session2.add(new_post)
-        session2.commit()
-        session2.close()
+        result = convert_string(number, name, grade)
+        number = result
+
+        if result:
+            new_post = NameDB(number=number, name=name, grade=grade)
+
+            session2 = Session2()
+            session2.add(new_post)
+            session2.commit()
+            session2.close()
+
         return redirect('/attendance/member')
 
 # URL(/member/delete/<指定したNameDBのid>)
