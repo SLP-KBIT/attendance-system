@@ -9,7 +9,7 @@ services:
      - "traefik"
     labels:
      - "traefik.enable=true"
-     - "traefik.http.routers.attendance-system.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)||PathPrefix(`/static`)"
+     - "traefik.http.routers.attendance-system.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
      - "traefik.http.services.attendance-system.loadbalancer.server.port=5000"
      - "traefik.http.routers.attendance-system.entrypoints=websecure"
      - "traefik.http.routers.attendance-system.tls.certresolver=myresolver"

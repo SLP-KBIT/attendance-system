@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import subprocess
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/attendance')
 
 # SQLiteデータベースに接続
 engine2 = create_engine('sqlite:///name.db')
