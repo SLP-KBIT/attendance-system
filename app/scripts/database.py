@@ -22,6 +22,7 @@ class NameDB(Base):
     number = Column(String(10), nullable=False, unique=True)
     name = Column(String(50), nullable=False)
     grade = Column(String(10), nullable=False)
+    furigana = Column(String(50), nullable=False)
 
 # SQLiteデータベースに接続
 engine1 = create_engine('sqlite:///attendance.db')

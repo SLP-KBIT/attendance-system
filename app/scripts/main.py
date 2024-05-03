@@ -24,11 +24,14 @@ def compute_day(post, onDays):
     return 1
 
 # 名前の抽出
-def extrack_name(my_names, post):
-    for my_name in my_names:
-        if my_name == post.name:
-            return 0
-    return post.name
+def extrack_name(posts, posts2):
+    my_names = []
+    for post2 in posts2:
+        for post in posts:
+            if post.name == post2.name:
+                my_names.append(post2.name)
+                break
+    return my_names
 
 # 更新に失敗した時のエラー処理
 error = ['',0]
@@ -44,14 +47,16 @@ def error_handle(e):
         return error[0]
 
 # 正規表現
-def convert_string(number, name, grade):
+def convert_string(number, name, grade, furigana):
     pattern_number = r'(\d{2})([A-Za-z])(\d{3})'
     pattern_name = r'^[^\W_]{1,30}$'
     pattern_grade = r'([A-Z])(\d)'
+    pattern_furigana =  r'^[ぁ-んァ-ンー]{1,30}$'
     result1 = re.match(pattern_number, number)
     result2 = re.match(pattern_name, name)
     result3 = re.match(pattern_grade, grade)
-    if result1 and result2 and result3:
+    result4 = re.match(pattern_furigana, furigana)
+    if result1 and result2 and result3 and result4:
         first_part = result1.group(1)
         second_part = result1.group(2).upper()
         third_part = result1.group(3)
@@ -109,14 +114,12 @@ def date(currentDate_str):
     session1.close()
 
     session2 = Session2()
+    posts2_furigana = session2.query(NameDB).order_by(NameDB.furigana).all()
     posts2 = session2.query(NameDB).order_by(NameDB.number).all()
     session2.close()
 
-    my_names = [100]
-    for post in posts:
-        tmp_name = extrack_name(my_names, post)
-        if tmp_name != 0 and post.grade != "":
-            my_names.append(tmp_name)
+    my_names = extrack_name(posts, posts2_furigana)
+
     posts = session1.query(AttendanceDB).order_by(AttendanceDB.date.desc()).filter(AttendanceDB.date >= currentDate, AttendanceDB.date < currentDate+timedelta(days=1)).all()
     return render_template('date.html', posts=posts, currentDate=currentDate_str, posts2=posts2, my_names=my_names)
 
@@ -146,6 +149,9 @@ def user(currentNumber):
         grade = request.form.get('grade')
         if grade != '':
             post.grade = grade
+        furigana = request.form.get('furigana')
+        if furigana != '':
+            post.furigana = furigana
 
         session2.commit()
         session2.close()
@@ -177,12 +183,13 @@ def member():
         number = request.form.get('number')
         name = request.form.get('name')
         grade = request.form.get('grade')
+        furigana = request.form.get('furigana')
 
-        result = convert_string(number, name, grade)
+        result = convert_string(number, name, grade, furigana)
         number = result
 
         if result:
-            new_post = NameDB(number=number, name=name, grade=grade)
+            new_post = NameDB(number=number, name=name, grade=grade, furigana=furigana)
 
             session2 = Session2()
             session2.add(new_post)

@@ -14,6 +14,10 @@
                 <input type="text" class="form-control" name="name" style="width: 150px;" required>
             </div>
             <div class="form-group">
+                <label for="furigana">ふりがな</label>
+                <input type="text" class="form-control" name="furigana" style="width: 150px;" required>
+            </div>
+            <div class="form-group">
                 <label for="grade">学年</label>
                 <select class="form-control" name="grade" style="width: 150px;" required>
                     <option hidden value="">学年</option>
@@ -36,6 +40,7 @@
             <tr>
                 <th>学籍番号</th>
                 <th>名前</th>
+                <th>ふりがな</th>
                 <th>学年</th>
                 <th>詳細</th>
                 <th>削除</th>
@@ -46,6 +51,7 @@
                 <tr>
                     <td>{{ post.number }}</td>
                     <td>{{ post.name }}</td>
+                    <td>{{ post.furigana }}</td>
                     <td>{{ post.grade }}</td>
                     <td><a href="/attendance/user/{{ post.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
                     <td><a href="/attendance/member/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>

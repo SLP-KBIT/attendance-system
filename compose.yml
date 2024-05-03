@@ -4,16 +4,16 @@ services:
       context: .
     container_name: "attendance-system"
     volumes:
-     - "./app:/app"
+      - "./app:/app"
     networks:
-     - "traefik"
+      - "traefik"
     labels:
-     - "traefik.enable=true"
-     - "traefik.http.routers.attendance-system.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
-     - "traefik.http.services.attendance-system.loadbalancer.server.port=5000"
-     - "traefik.http.routers.attendance-system.entrypoints=websecure"
-     - "traefik.http.routers.attendance-system.tls.certresolver=myresolver"
-     - "traefik.http.routers.attendance-system.middlewares=kagawaUniv-secure-member@file"
+      - "traefik.enable=true"
+      - "traefik.http.routers.attendance-system.rule=Host(`rin.eng.kagawa-u.ac.jp`)&&PathPrefix(`/attendance`)"
+      - "traefik.http.services.attendance-system.loadbalancer.server.port=5000"
+      - "traefik.http.routers.attendance-system.entrypoints=websecure"
+      - "traefik.http.routers.attendance-system.tls.certresolver=myresolver"
+      - "traefik.http.routers.attendance-system.middlewares=kagawaUniv-secure-member@file"
 
 networks:
   traefik:

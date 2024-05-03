@@ -6,23 +6,33 @@
     <h1 class="mt-4">活動日：{{ currentDate }}</h1>
         <div class="card mt-3">
             <div class="card-body">
-                <h3 id="B4">○ B4 </h3>
-                <h3 id="B3">○ B3 </h3>
-                <h3 id="B2">○ B2 </h3>
-                <h3 id="B1">○ B1 </h3>
+                <h3 id="M2"></h3>
+                <h3 id="M1"></h3>
+                <h3 id="B4"></h3>
+                <h3 id="B3"></h3>
+                <h3 id="B2"></h3>
+                <h3 id="B1"></h3>
             </div>
         </div>
 
         <script>
-            var element;
+            var element, grade;
             // {% for my_name in my_names %} //
                 // {% for post in posts %} //
-                    if ( '{{post.name}}' == '{{my_name}}' && "{{post.grade}}" != "" ) { element = document.getElementById("{{ post.grade }}") }
+                    if ( '{{post.name}}' == '{{my_name}}' && "{{post.grade}}" != "" ) { 
+                        element = document.getElementById("{{ post.grade }}") 
+                        grade = "{{ post.grade }}"
+                    }
                 // {% endfor %} //
                 if (element) {
-                    element.innerHTML += '{{ my_name }}、';
+                    if (element.innerHTML == "") {
+                        element.innerHTML = `○ ${grade} {{ my_name }}`;
+                    } else {
+                        element.innerHTML += '、{{ my_name }}';
+                    }
                 }
             // {% endfor %} //
+
         </script>
 
         <h2 class="mt-4">出席者追加</h2>
