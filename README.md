@@ -27,3 +27,23 @@ ssh-keygen -q -t rsa -N '' -f ./app/key/attendance_key
 ```
 docker compose up -d
 ```
+
+# 更新方法
+
+1. コンテナ削除
+
+```
+docker compose down
+```
+
+2. Git HubからPULL
+
+```
+git pull
+```
+
+3. コンテナ構築
+
+```
+docker compose up -d
+```
