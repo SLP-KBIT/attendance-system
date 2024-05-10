@@ -4,57 +4,31 @@
 <div class="container mt-4">
     <h1>メンバー登録</h1>
     <div class="mt-3">
-        <form action="/attendance/member" method="POST">
-            <div class="form-group">
-                <label for="number">学籍番号</label>
-                <input type="text" class="form-control" name="number" style="width: 150px;" placeholder="20T000" required>
-            </div>
-            <div class="form-group">
-                <label for="name">名前</label>
-                <input type="text" class="form-control" name="name" style="width: 150px;" required>
-            </div>
-            <div class="form-group">
-                <label for="furigana">ふりがな</label>
-                <input type="text" class="form-control" name="furigana" style="width: 150px;" required>
-            </div>
-            <div class="form-group">
-                <label for="grade">学年</label>
-                <select class="form-control" name="grade" style="width: 150px;" required>
-                    <option hidden value="">学年</option>
-                    <option value="B1">学士1年</option>
-                    <option value="B2">学士2年</option>
-                    <option value="B3">学士3年</option>
-                    <option value="B4">学士4年</option>
-                    <option value="M1">修士1年</option>
-                    <option value="M2">修士2年</option>
-                </select>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary" style="width: 150px;">登録</button>
+        <h2 class="mt-4">LDAPからユーザー情報を取得</h2>
+        <form class="mb-4" action="/attendance/member" method="POST">
+            <input class="btn btn-primary" type="submit" style="width: 150px;" value="更新">
         </form>
     </div>
 
-    <h2 class="mt-4">メンバー一覧</h2>
+    <h2 class="mt-4">SLPメンバー一覧</h2>
     <table class="table">
         <thead>
             <tr>
                 <th>学籍番号</th>
                 <th>名前</th>
-                <th>ふりがな</th>
+                <th>フリガナ</th>
                 <th>学年</th>
                 <th>詳細</th>
-                <th>削除</th>
             </tr>
         </thead>
         <tbody>
-            {% for post in posts %}
+            {% for user in users %}
                 <tr>
-                    <td>{{ post.number }}</td>
-                    <td>{{ post.name }}</td>
-                    <td>{{ post.furigana }}</td>
-                    <td>{{ post.grade }}</td>
-                    <td><a href="/attendance/user/{{ post.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
-                    <td><a href="/attendance/member/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
+                    <td>{{ user.number }}</td>
+                    <td>{{ user.last_name }} {{ user.first_name }}</td>
+                    <td>{{ user.furigana }}</td>
+                    <td>{{ user.grade }}</td>
+                    <td><a href="/attendance/user/{{ user.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
                 </tr>
             {% endfor %}
         </tbody>

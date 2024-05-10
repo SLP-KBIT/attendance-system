@@ -3,9 +3,12 @@
 {% block body %}
 
 <div class="container">
-    <h1 class="mt-4">活動日：{{ currentDate }}</h1>
+    <h1 class="mt-4">活動日：{{ currentDate_str }}</h1>
         <div class="card mt-3">
             <div class="card-body">
+                <h3 id="D3"></h3>
+                <h3 id="D2"></h3>
+                <h3 id="D1"></h3>
                 <h3 id="M2"></h3>
                 <h3 id="M1"></h3>
                 <h3 id="B4"></h3>
@@ -16,33 +19,27 @@
         </div>
 
         <script>
-            var element, grade;
-            // {% for my_name in my_names %} //
-                // {% for post in posts %} //
-                    if ( '{{post.name}}' == '{{my_name}}' && "{{post.grade}}" != "" ) { 
-                        element = document.getElementById("{{ post.grade }}") 
-                        grade = "{{ post.grade }}"
-                    }
-                // {% endfor %} //
-                if (element) {
+            var element, numbers = "{{ numbers }}";
+            // {% for user in users_sort %} //
+                if ( numbers.includes("{{ user.number }}") ) { 
+                    element = document.getElementById("{{ user.grade }}")
                     if (element.innerHTML == "") {
-                        element.innerHTML = `○ ${grade} {{ my_name }}`;
+                        element.innerHTML = `○ {{ user.grade }} {{ user.last_name }}`;
                     } else {
-                        element.innerHTML += '、{{ my_name }}';
+                        element.innerHTML += '、{{ user.last_name }}';
                     }
                 }
             // {% endfor %} //
-
         </script>
 
         <h2 class="mt-4">出席者追加</h2>
         <div class="form mt-3">
-            <form action="/attendance/date/{{ currentDate }}" method="POST">
+            <form action="/attendance/date/{{ currentDate_str }}" method="POST">
                 <div class="form-group">
-                    <select class="form-control" name="name" style="width: 150px;" required>
+                    <select class="form-control" name="number" style="width: 150px;" required>
                         <option hidden value="">名前</option>
-                        {% for post2 in posts2 %}
-                            <option value="{{ post2.name }}">{{ post2.grade }}：{{ post2.name }}</option>
+                        {% for user in users %}
+                            <option value="{{ user.number }}">{{ user.grade }}：{{ user.last_name }} {{ user.first_name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -55,19 +52,19 @@
     <table class="table">
         <thead>
             <tr>
-                <th>名前</th>
+                <th>学籍番号</th>
                 <th>日時</th>
                 <th>詳細</th>
                 <th>削除</th>
             </tr>
         </thead>
         <tbody>
-            {% for post in posts %}
+            {% for date in dates %}
                 <tr>
-                    <td>{{ post.name }}</td>
-                    <td>{{ post.date }}</td>
-                    <td><a href="/attendance/user/{{ post.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
-                    <td><a href="/attendance/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
+                    <td>{{ date.number }}</td>
+                    <td>{{ date.date }}</td>
+                    <td><a href="/attendance/user/{{ date.number }}" class="btn btn-info btn-sm" role="button">詳細</a></td>
+                    <td><a href="/attendance/delete/{{ date.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
                 </tr>
             {% endfor %}
         </tbody>

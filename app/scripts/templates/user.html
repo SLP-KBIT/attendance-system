@@ -5,40 +5,18 @@
     <h1>ユーザー情報</h1>
     <div class="card mt-3">
         <div class="card-body">
-            <h3>学籍番号：{{ lasts.number }}</h3>
-            <h3>名前：{{ lasts.name }}</h3>
-            <h3>ふりがな：{{ lasts.furigana }}</h3>
-            <h3>学年：{{ lasts.grade }}</h3>
+            <h3>学籍番号：{{ user.number }}</h3>
+            <h3>名前：{{ user.last_name }} {{ user.first_name }}</h3>
+            <h3>フリガナ：{{ user.furigana }}</h3>
+            <h3>学年：{{ user.grade }}</h3>
         </div>
     </div>
 
-    <h2 class="mt-4">ユーザー情報変更</h2>
     <div class="mt-3">
         <form action="/attendance/user/{{ currentNumber }}" method="POST">
-            <b>変更のない部分は空白にしてください</b>
             <div class="form-group">
-                <label for="number">学籍番号</label>
-                <input type="text" class="form-control" name="number" style="width: 150px;">
-            </div>
-            <div class="form-group">
-                <label for="name">名前</label>
-                <input type="text" class="form-control" name="name" style="width: 150px;">
-            </div>
-            <div class="form-group">
-                <label for="furigana">ふりがな</label>
-                <input type="text" class="form-control" name="furigana" style="width: 150px;">
-            </div>
-            <div class="form-group">
-                <label for="grade">学年</label>
-                <select class="form-control" name="grade" style="width: 150px;">
-                    <option hidden value="">学年</option>
-                    <option value="B1">学士1年</option>
-                    <option value="B2">学士2年</option>
-                    <option value="B3">学士3年</option>
-                    <option value="B4">学士4年</option>
-                    <option value="M1">修士1年</option>
-                    <option value="M2">修士2年</option>
-                </select>
+                <label for="furigana">フリガナ変更（全角カタカナ）</label>
+                <input type="text" class="form-control" name="furigana" style="width: 150px;" placeholder="例　キダコウジ">
             </div>
             <br>
             <button type="submit" class="btn btn-primary" style="width: 150px;">変更</button>
@@ -54,10 +32,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for post in posts %}
+            {% for date in dates %}
                 <tr>
-                    <td>{{ post.date }}</td>
-                    <td><a href="/attendance/delete/{{ post.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
+                    <td>{{ date.date }}</td>
+                    <td><a href="/attendance/delete/{{ date.id }}" class="btn btn-danger btn-sm" role="button">削除</a></td>
                 </tr>
             {% endfor %}
         </tbody>
