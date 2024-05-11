@@ -20,13 +20,13 @@
 
         <script>
             var element, numbers = "{{ numbers }}";
-            // {% for user in users_sort %} //
+            // {% for user in users %} //
                 if ( numbers.includes("{{ user.number }}") ) { 
                     element = document.getElementById("{{ user.grade }}")
                     if (element.innerHTML == "") {
-                        element.innerHTML = `○ {{ user.grade }} {{ user.last_name }}`;
+                        element.innerHTML = "○ {{ user.grade }} {{ numbers[user.number] }}";
                     } else {
-                        element.innerHTML += '、{{ user.last_name }}';
+                        element.innerHTML += "、{{ numbers[user.number] }}";
                     }
                 }
             // {% endfor %} //

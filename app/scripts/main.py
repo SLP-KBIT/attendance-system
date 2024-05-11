@@ -26,12 +26,28 @@ def compute_day(date, onDays):
 
 # 出席者の学籍番号取得
 def attend_number(dates, users):
-    numbers = []
+    numbers = {}
+    tmp_number = ""
+    tmp_last_name = ""
+    tmp_first_name = ""
+    tmp_grade = ""
     for user in users:
+        flg = False
+        if user.last_name == tmp_last_name and user.grade == tmp_grade:
+            flg = True
+            if tmp_number in numbers:
+                numbers[tmp_number] = tmp_last_name + tmp_first_name[0]
         for date in dates:
-            if date.number == user.number:
-                numbers.append(user.number)
+            if date.number == user.number and flg:
+                numbers[user.number] = user.last_name + user.first_name[0]
                 break
+            elif date.number == user.number:
+                numbers[user.number] = user.last_name
+                break
+        tmp_number = user.number
+        tmp_last_name = user.last_name
+        tmp_first_name = user.first_name
+        tmp_grade = user.grade
     return numbers
 
 # 更新に失敗した時のエラー処理
@@ -131,13 +147,12 @@ def date(currentDate_str):
     session1.close()
 
     session2 = Session2()
-    users_sort = session2.query(User).order_by(User.furigana).all()
-    users = session2.query(User).order_by(User.number).all()
+    users = session2.query(User).order_by(User.grade.desc()).order_by(User.furigana).all()
     session2.close()
 
     numbers = attend_number(dates, users)
 
-    return render_template('date.html', dates=dates, currentDate_str=currentDate_str, users=users, users_sort=users_sort, numbers=numbers)
+    return render_template('date.html', dates=dates, currentDate_str=currentDate_str, users=users, numbers=numbers)
 
 # 指定した学籍番号
 @app.route('/attendance/user/<currentNumber>', methods=['GET', 'POST'])
@@ -145,7 +160,7 @@ def user(currentNumber):
     if request.method == 'POST':
         furigana = request.form.get('furigana')
 
-        pattern = r'^[ァ-ンー]{1,40}$'
+        pattern = r'^[ァ-ンー　\s]{1,40}$'
         if re.match(pattern, furigana) or furigana == "":
             session2 = Session2()
             user = session2.query(User).filter(User.number == currentNumber).first()
@@ -183,7 +198,7 @@ def member():
     if request.method == 'POST':
         # opneldapから取得
         server = Server('miku.eng.kagawa-u.ac.jp', get_info=ALL, port=636, use_ssl=True)
-        conn = Connection(server, user='cn=admin,dc=slp,dc=eng,dc=kagawa-u,dc=ac,dc=jp', password='パスワード', auto_bind=True)
+        conn = Connection(server, user='cn=admin,dc=slp,dc=eng,dc=kagawa-u,dc=ac,dc=jp', password='<パスワード>', auto_bind=True)
         conn.search('cn=slp,ou=groups,dc=slp,dc=eng,dc=kagawa-u,dc=ac,dc=jp', '(cn=slp)', attributes=['memberuid'], paged_size=None, search_scope=SUBTREE)
         memberuid = conn.entries[0]['memberuid']
         conn.search('ou=members,dc=slp,dc=eng,dc=kagawa-u,dc=ac,dc=jp', '(objectclass=person)', attributes=['uid', 'mail', 'sn', 'givenName'], paged_size=None, search_scope=SUBTREE)
