@@ -24,9 +24,10 @@ for json_data in json_datas:
 
     # フリガナ設定
     user = session2.query(User).filter(User.number == json_data["number"]).first()
-    if user.furigana == "":
-        user.furigana = unicodedata.normalize('NFKC', json_data["furigana"])
-        session2.commit()
+    if user:
+        if user.furigana == "":
+            user.furigana = unicodedata.normalize('NFKC', json_data["furigana"])
+            session2.commit()
 
     # 文字列型から日時型に変換
     date_object = datetime.strptime(json_data["timestamp"], "%Y-%m-%d %H:%M:%S")
