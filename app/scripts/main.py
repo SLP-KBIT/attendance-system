@@ -36,10 +36,10 @@ def attend_number(dates, users):
         if user.last_name == tmp_last_name and user.grade == tmp_grade:
             flg = True
             if tmp_number in numbers:
-                numbers[tmp_number] = tmp_last_name + tmp_first_name[0]
+                numbers[tmp_number] = f"{tmp_last_name}({tmp_first_name[0]})"
         for date in dates:
             if date.number == user.number and flg:
-                numbers[user.number] = user.last_name + user.first_name[0]
+                numbers[user.number] = f"{user.last_name}({user.first_name[0]})"
                 break
             elif date.number == user.number:
                 numbers[user.number] = user.last_name
