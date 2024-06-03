@@ -205,6 +205,15 @@ def member():
         
         session2 = Session2()
 
+        # DBへの削除
+        users = session2.query(User).all()
+        for user in users:
+            if user.uid in memberuid:
+                continue
+            else:
+                session2.delete(user)
+                session2.commit()
+
         # DBへの追加・更新
         for entry in sorted(conn.entries):
             number, grade = judge_student(entry, memberuid)
@@ -226,15 +235,6 @@ def member():
                 session2.add(new_user)
 
             session2.commit()
-
-        # DBへの削除
-        users = session2.query(User).all()
-        for user in users:
-            if user.uid in memberuid:
-                continue
-            else:
-                session2.delete(user)
-                session2.commit()
 
         session2.close()
         return redirect('/attendance/member')

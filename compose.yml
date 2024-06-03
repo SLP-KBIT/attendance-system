@@ -3,6 +3,8 @@ services:
     build:
       context: .
     container_name: "attendance-system"
+    # ports:
+    #   - "5000:5000"
     volumes:
       - "./app:/app"
     networks:
