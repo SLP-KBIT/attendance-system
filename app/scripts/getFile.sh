@@ -5,8 +5,8 @@ set -e
 
 # 接続先ユーザ名・ホスト名・パス・ファイル名
 remote_user="slp-admin"
-remote_host="133.92.145.205"
-remote_file="~/attendance-system/data.json"
+remote_host="xxx.xxx.xxx.xxx"
+remote_file="~/attendance-system-raspi/data.json"
 local_file="data.json"
 remote_key="key/attendance_key"
 
